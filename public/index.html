@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Game Shop</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 50px;
+        }
+        .container {
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Video Game Shop</h1>
+
+        <h2>Register</h2>
+        <form action="/register" method="POST" class="mb-4">
+            <div class="form-group">
+                <input type="text" name="username" class="form-control" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+        </form>
+
+        <h2>Login</h2>
+        <form action="/login" method="POST" class="mb-4">
+            <div class="form-group">
+                <input type="text" name="username" class="form-control" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+
+        <h2>Games</h2>
+        <div id="games" class="mb-4"></div>
+
+        <h2>Purchase Game</h2>
+        <form action="/purchase" method="POST">
+            <div class="form-group">
+                <input type="text" name="user_id" class="form-control" placeholder="User ID" required>
+            </div>
+            <div class="form-group">
+                <input type="text" name="game_id" class="form-control" placeholder="Game ID" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Purchase</button>
+        </form>
+    </div>
+    <!-- Used AI for this portion -->
+    <script>
+        fetch('/games')
+            .then(response => response.json())
+            .then(data => {
+                const gamesDiv = document.getElementById('games');
+                data.forEach(game => {
+                    const gameElement = document.createElement('div');
+                    gameElement.className = 'card mb-3';
+                    gameElement.innerHTML = `
+                        <div class="card-body">
+                            <h5 class="card-title">${game.gameTitle}</h5>
+                            <p class="card-text">${game.description}</p>
+                            <p class="card-text"><strong>Price:</strong> $${game.price}</p>
+                        </div>
+                    `;
+                    gamesDiv.appendChild(gameElement);
+                });
+            });
+    </script>
+</body>
+</html>
